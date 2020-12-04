@@ -10,6 +10,7 @@ function rename_remote()
 	count=$(git branch | grep $oldBranchName | wc -l)
 	if [ $count == 0 ];then
 		git checkout -b $oldBranchName origin/$oldBranchName
+		# 分支不存在
 		if [ $? != 0 ];then
 			echo "branch:$oldBranchName do not exist,please check it..."
 			echo "fail"
@@ -17,6 +18,7 @@ function rename_remote()
 		fi
 	fi
 
+	# git pull 有可能发生冲突，不冲突才执行剩余的操作
 	if git pull ; then
 		git push --delete origin $oldBranchName
 		git branch -m $oldBranchName $newBranchName
@@ -33,6 +35,7 @@ function usage()
     exit 2
 }
 
+# 需要在 git 仓库下执行该脚本
 if [ $(ls -al | grep '\.git' | wc -l) == 0 ]; then
 	echo "the current path is not the git repository,please check it..."
 	exit 3
