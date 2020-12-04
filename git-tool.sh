@@ -1,8 +1,18 @@
 #!/bin/bash
 version=1.0.0
 
+# 判断工作区是否为 clean 状态，不是的话直接退出
+function validWorkingTree()
+{
+	if [ $(git status -s | wc -l) != 0 ]; then
+		echo "you have uncommitted changes,please make sure your working tree is clean..."
+		exit 1;
+	fi
+}
+
 function rename_remote()
 {
+	validWorkingTree
 	read -p "enter remote branch name: " oldBranchName
 	read -p "enter new branch name: " newBranchName
 	echo "start renaming..."
