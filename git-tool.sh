@@ -17,13 +17,13 @@ function rename_remote()
 		fi
 	fi
 
-	git pull
-	git push --delete origin $oldBranchName
-	git branch -m $oldBranchName $newBranchName
-	git push origin $newBranchName
-	git branch --set-upstream-to=origin/$newBranchName $newBranchName
-
-	echo "done"
+	if git pull ; then
+		git push --delete origin $oldBranchName
+		git branch -m $oldBranchName $newBranchName
+		git push origin $newBranchName
+		git branch --set-upstream-to=origin/$newBranchName $newBranchName
+		echo "done"
+	fi	
 }
 
 function usage()
