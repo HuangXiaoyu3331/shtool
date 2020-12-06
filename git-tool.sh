@@ -6,6 +6,7 @@ function validWorkingTree()
 {
 	if [ $(git status -s | wc -l) != 0 ]; then
 		echo "you have uncommitted changes,please make sure your working tree is clean..."
+		echo "hint: commit your changes or stash them to proceed."
 		exit 1;
 	fi
 }
@@ -38,6 +39,29 @@ function rename_remote()
 	fi	
 }
 
+# 回退到某个版本时的状态
+function revert2SpecifiedVersion()
+{
+	validWorkingTree
+	# --no-pager:不打开 pager
+	# --pretty=online:一行显示提交信息
+	# -n:显示日志行数
+	git --no-pager log --pretty=oneline -n 10
+	read -p "enter which version to revert to(can't select HEAD): " revertCommitId
+
+	# 如果 revert 的版本没有歧义的话，就直接回滚，否则，可以通过手动添加-m的方式进行回滚
+	if git revert --no-edit $revertCommitId..HEAD ; then
+		echo "done"
+	fi
+
+}
+
+# 查看 log，不打开 pager
+function log()
+{
+	git --no-pager log
+}
+
 function usage()
 {
 	echo "Usage: $0 {rename}"
@@ -54,6 +78,10 @@ fi
 case $1 in
 	rename )
 		rename_remote;;
+	revert )
+		revert2SpecifiedVersion;;
+	log )
+		log;;
 	* )
 		usage;;
 esac
