@@ -9,6 +9,7 @@
 |base64.sh|base64加解密|
 |git-tool.sh|简化git常用操作|
 |app.sh|docker常用软件管理|
+|ssh-tool.sh|ssh连接小工具|
 
 ## 文档
 [脚本使用文档](https://www.yuque.com/hxy1231/nfg09x)
