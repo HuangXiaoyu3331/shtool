@@ -1,35 +1,19 @@
 #!/bin/bash
-version=1.0.0
+version=1.1.0
 
-appName=$2
+appName=${!#}
 basePath=/Users/huangxy/work/docker
-
-function start()
-{
-	cd $basePath/$appName
-	docker-compose up -d
-}
-
-function stop()
-{
-	cd $basePath/$appName
-	docker-compose stop
-}
 
 function usage()
 {
-	echo "Usage: $0 {start|stop} {appName}"
-	echo "Example: $0 start mysql8"
+	echo "Usage: $0 {command} {appName}"
+	echo "Node: {command} should be on of the command in docker-compose"
+	echo "Example: $0 up mysql8"
 	exit 1
 }
 
-case $1 in
-	start)
-	start;;
+if [[ $# -ne 2 ]]; then
+	usage
+fi
 
-	stop)
-	stop;;
-
-	*)
-	usage;;
-esac
+cd $basePath/$appName && docker-compose $1
