@@ -1,5 +1,5 @@
 #!/bin/bash
-version=1.1.0
+version=1.1.1
 
 appName=${!#}
 basePath=/Users/huangxy/work/docker
@@ -12,8 +12,8 @@ function usage()
 	exit 1
 }
 
-if [[ $# -ne 2 ]]; then
+if [[ $# -lt 2 ]]; then
 	usage
 fi
 
-cd $basePath/$appName && docker-compose $1
+cd $basePath/$appName && docker-compose ${@:1:`expr $# - 1`}
