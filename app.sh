@@ -4,6 +4,11 @@ version=1.1.1
 appName=${!#}
 basePath=/Users/huangxy/work/docker
 
+function show_all_app()
+{
+	ls $basePath
+}
+
 function usage()
 {
 	echo "Usage: $0 {command} {appName}"
@@ -12,8 +17,18 @@ function usage()
 	exit 1
 }
 
-if [[ $# -lt 2 ]]; then
-	usage
-fi
+function exec()
+{
+	if [[ $# -lt 2 ]]; then
+		usage
+	fi
+	cd $basePath/$appName && docker-compose ${@:1:`expr $# - 1`}
+}
 
-cd $basePath/$appName && docker-compose ${@:1:`expr $# - 1`}
+case $1 in
+	-l )
+	show_all_app;;
+
+	* )
+	exec $@;;
+esac
