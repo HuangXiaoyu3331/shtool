@@ -22,13 +22,23 @@ function exec()
 	if [[ $# -lt 2 ]]; then
 		usage
 	fi
-	cd $basePath/$appName && docker-compose ${@:1:`expr $# - 1`}
+	cd $basePath/$appName
+	echo "run command: docker-compose ${@:1:`expr $# - 1`}"
+	docker-compose ${@:1:`expr $# - 1`}
+}
+
+function enterDockerContainer()
+{
+	container=$2
+	docker exec -it $container /bin/bash
 }
 
 case $1 in
 	-l )
 	show_all_app;;
 
+	enter )
+		enterDockerContainer $@;;
 	* )
 	exec $@;;
 esac
