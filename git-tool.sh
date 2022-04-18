@@ -56,6 +56,17 @@ function revert2SpecifiedVersion()
 
 }
 
+function showBranch()
+{
+	param=$2
+	case $param in
+		-m )
+			git for-each-ref --format "%(authorname) %(refname)" | grep "$(git config user.name)";;
+		* )
+			git branch $param;;
+	esac
+}
+
 # 查看 log，不打开 pager
 function log()
 {
@@ -82,6 +93,8 @@ case $1 in
 		revert2SpecifiedVersion;;
 	log )
 		log;;
+	branch )
+		showBranch $@;;
 	* )
 		usage;;
 esac
