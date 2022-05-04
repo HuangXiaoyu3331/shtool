@@ -67,10 +67,10 @@ function showBranch()
 	esac
 }
 
-# 查看 log，不打开 pager
+# 格式化输出log
 function log()
 {
-	git --no-pager log
+	git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 }
 
 function usage()
